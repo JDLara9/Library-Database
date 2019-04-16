@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load auth_extras %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  
+  {% if request.user|has_group:"ADMIN" %}
+	<p> User belongs to Admin </p>
+	<a href="{% url 'admin:index' %}">Admin Site</a>
+  {% endif %}
+  
+  {% if request.user|has_group:"LIBRARIAN" %}
+	<p> User belongs to Librarian </p>
+	<a href="{% url 'add_model' %}">Check-Out Item</a>
+	<a href="{% url 'add_checkIn' %}">Check-In Item</a>
+	<p><a href="{% url 'pay_Fine' %}">Pay Fines</a></p>
+  {% endif %}
+  
+  {% if request.user|has_group:"FACULTY" %}
+	<p> User belongs to Faculty </p>
+	<p><a href="{% url 'pay_Fine' %}">Pay Fines</a></p>
+  {% endif %}
+  
+  {% if request.user|has_group:"STUDENT" %}
+	<p> User belongs to Student </p>
+	<p><a href="{% url 'pay_Fine' %}">Pay Fines</a></p>
+  {% endif %}
+   <p><a href="{% url 'logout' %}">logout</a></p>
+   
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a> |
+  <a href="{% url 'signup' %}">signup</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% if user.is_authenticated %}
+<a href ="{% url 'home' %}">Home</a> <a href ="{% url 'catalog_index' %}">Library Catalog</a>
+<br> <br>
+  User: {{ user.username }}
+ <br>User ID: {{user.id}}
+<br>Amount due:
+ {% endif %}
+    <h2>Fines payment</h2>
+<p>Enter fine amount and press pay</p>
+<form class="site-form" action="{% url 'paid' %}", method="POST">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Pay">
+</form>
+	{% for amount in amount %}
+    {{amount.amount}}
+	{% endfor %}
